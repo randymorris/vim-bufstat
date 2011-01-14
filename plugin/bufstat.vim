@@ -211,11 +211,11 @@ function BufstatScroll(dir) "{{{2
   "
   " <dir> can be 'left' or 'right'
   "
-  if a:dir == '<'
+  if a:dir == 'left'
     if s:chop_buffers < len(s:buffer_list) - 1
       let s:chop_buffers += 1
     endif
-  elseif a:dir == '>'
+  elseif a:dir == 'right'
     if s:chop_buffers > 0
       let s:chop_buffers -= 1
     endif
@@ -241,8 +241,9 @@ augroup END
 "}}}
 
 " Mappings "{{{
-nnoremap <silent> <plug>bufstat_scroll_right :call BufstatScroll('>')<cr>
-nnoremap <silent> <plug>bufstat_scroll_left :call BufstatScroll('<')<cr>
+
+nnoremap <silent> <plug>bufstat_scroll_right :call BufstatScroll('right')<cr>
+nnoremap <silent> <plug>bufstat_scroll_left :call BufstatScroll('left')<cr>
 
 if !hasmapto('<plug>scroll_list_right', 'n')
   silent! nmap <unique> <right> <plug>bufstat_scroll_right
@@ -251,6 +252,7 @@ endif
 if !hasmapto('<plug>scroll_list_left', 'n')
   silent! nmap <unique> <left> <plug>bufstat_scroll_left
 endif
+
 "}}}
 
 " vim:et:sw=2:ts=4:sts=4:fdl=0
