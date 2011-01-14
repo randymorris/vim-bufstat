@@ -65,7 +65,7 @@ You can tweak the behavior of Bufstat by setting a few variables in your
 	let g:bufstat_inactive_hl_group = 'WarningMsg'
 
 ------------------------------------------------------------------------------
-3.1 g:bufstat-debug                                              *bufstat_debug*
+3.1 g:bufstat_debug                                              *bufstat_debug*
 
 Display debug output from Bufstat.  This includes warnings when you've
 selected a highlight group that doesn't exist for either
