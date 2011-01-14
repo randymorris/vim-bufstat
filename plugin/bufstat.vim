@@ -165,16 +165,24 @@ function BufstatBuildStatusline() "{{{2
   " Respects s:chop_buffers.  Includes formatting for highlight groups which
   " will be formatted as the &statusline option.
   "
-  let x = copy(s:buffer_list)
+  let buffer_list_copy = copy(s:buffer_list)
   if s:chop_buffers > 0
-    call remove(x, len(x) - s:chop_buffers, len(x) - 1)
+    call remove(buffer_list_copy, len(buffer_list_copy) - s:chop_buffers, len(buffer_list_copy) - 1)
   endif
-  let b = join(x, '  ')
+  let buffer_string = join(buffer_list_copy, '  ')
 
-  let s = '%<%#' . s:inactive_hl_group . '#'
-  let s .= b
-  let s .= '  %=%#StatusLine#' . s:old_statusline
-  return s
+  let status_string = '%<%#' . s:inactive_hl_group . '#'
+  let status_string .= buffer_string
+
+  " if there are more buffers than are shown, show an > just like vim shows a
+  " < at the start of the statusline when it's truncated
+  if s:chop_buffers > 0
+    let status_string .= '>'
+  endif
+
+  " old statusline, right aligned
+  let status_string .=  '%#StatusLine#%=  ' . s:old_statusline
+  return status_string
 endfunction
 "}}}
 
