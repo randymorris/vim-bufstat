@@ -1,0 +1,158 @@
+*bufstat.txt*	For Vim version 7.3	Last change: 2011 January 14
+
+Persistent buffer list in the statusline
+
+==============================================================================
+CONTENTS                                                      *bufstat-contents*
+
+    1. Intro ........................... |bufstat-intro|
+    2. Usage ........................... |bufstat-usage|
+    3. Options  ........................ |bufstat-options|
+        3.1 bufstat_debug .............. |bufstat_debug|
+        3.2 bufstat_active_hl_group .... |bufstat_active_hl_group|
+        3.3 bufstat_inactive_hl_group .. |bufstat_inactive_hl_group|
+        3.4 bufstat_update_old_windows . |bufstat_update_old_windows|
+    4. License ......................... |bufstat-license|
+    5. Bugs ............................ |bufstat-bugs|
+    6. Contributing .................... |bufstat-contributing|
+    7. Changelog ....................... |bufstat-changelog|
+    8. Credits ......................... |bufstat-credits|
+
+==============================================================================
+1. Intro                                                         *bufstat-intro*
+
+Bufstat allows you to have a minimal buffer list displayed in the statusline.
+This allows a decent display of open buffers while keeping wasted screen space
+at a minimum.
+
+If you already make heavy use of your statusline, this plugin is likely not
+for you.  Bufstat works by reserving the left half of your statusline for a
+bufferlist while allowing you full customizability of the right half.
+
+==============================================================================
+2. Usage                                                         *bufstat-usage*
+
+Using bufstat is simple.  Drop bufstat.vim in your $VIMHOME/plugin directory
+and restart vim.  Upon starting vim you should see that your statusline has
+shifted to the right and the name of the current buffer is displayed on the
+left.  When opening a new buffer, the new buffer is displayed in the
+statusline.
+
+By default the active buffer is highlighted with the |hl-StatuslineNC|
+highlight group.  Inactive buffers are highlighted with |hl-Statusline|.  See
+|bufstat_active_hl_group| and |bufstat_inactive_hl_group| for details.
+
+Sometimes the statusline is not wide enough to display the entire buffer list.
+In this situation, bufstat will truncate the beginning of the list.  You may
+scroll through the list by hiding and showing the tail of the list by using
+'<Left>' or '<Right>'.  These mappings can be overridden by creating mappings
+in your |vimrc|.  An example: >
+
+	map <left> <plug>bufstat_scroll_left
+	map <right> <plug>bufstat_scroll_left
+
+Note that these mappings will not overwrite existing mappings so you don't
+have to worry about collisions.
+
+==============================================================================
+3. Options                                                     *bufstat-options*
+
+You can tweak the behavior of Bufstat by setting a few variables in your
+|vimrc|. For example: >
+
+	let g:bufstat_debug = 1
+	let g:bufstat_active_hl_group = 'Todo'
+	let g:bufstat_inactive_hl_group = 'WarningMsg'
+
+------------------------------------------------------------------------------
+3.1 g:bufstat-debug                                              *bufstat_debug*
+
+Display debug output from Bufstat.  This includes warnings when you've
+selected a highlight group that doesn't exist for either
+|bufstat_active_hl_group| or |bufstat_inactive_hl_group|.
+
+Default: 0
+
+------------------------------------------------------------------------------
+3.2 g:bufstat_active_hl_group                          *bufstat_active_hl_group*
+
+The |highlight-group| that will be used to display the active buffer.  You can
+also define your own highlight-group in your |vimrc|, e.g.: >
+
+	highlight ActiveBuffer ctermfg=white ctermbg=blue
+	let g:bufstat_active_hl_group = "ActiveBuffer"
+
+Default: StatusLineNC 
+
+------------------------------------------------------------------------------
+3.3 g:bufstat_inactive_hl_group                      *bufstat_inactive_hl_group*
+
+The |highlight-group| that will be used to display the in active buffer.  You
+can also define your own highlight-group in your |vimrc|, e.g.: >
+
+	highlight InactiveBuffer ctermfg=blue ctermbg=white
+	let g:bufstat_inactive_hl_group = "InactiveBuffer"
+
+Default: StatusLineNC 
+
+------------------------------------------------------------------------------
+3.4 g:bufstat_update_old_windows                    *bufstat_update_old_windows*
+
+Setting this option will enable |autocmd|s that update the statusline of all
+windows while the cursor is inactive.  This enables bufstat to update the
+buffer list in old windows when creating a window with a new buffer.
+
+Default: 1
+
+==============================================================================
+4. License                                                     *bufstat-license*
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
+Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+==============================================================================
+5. Bugs                                                           *bufstat-bugs*
+
+If you find a bug please post it on the issue tracker:
+http://github.com/rson/vim-bufstat/issues
+
+==============================================================================
+6. Contributing                                           *bufstat-contributing*
+
+Have an idea how to make Bufstat better?  Great!  Fork the project on GitHub or
+send patches to <randy.morris@archlinux.us>.
+
+GitHub: http://github.com/rson/vim-bufstat/
+
+==============================================================================
+7. Changelog                                                 *bufstat-changelog*
+
+v0.1
+    * Initial release.
+
+==============================================================================
+8. Credits                                                     *bufstat-credits*
+
+The concept as well as a small portion of this code was derived from
+buftabs.vim[1] and/or my modifications to that script.  Credit Ico Doornekamp
+for the original idea and implementation.
+
+While buftabs.vim and bufstat.vim try to accomplish the same goal, (display a
+buffer list while saving screen space) bufstat is more limited as it only
+allows placing the buffer list in the statusbar.  It also has fewer styling
+options than buftabs.vim.
+
+[1]: http://www.vim.org/scripts/script.php?script_id=1664
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:
