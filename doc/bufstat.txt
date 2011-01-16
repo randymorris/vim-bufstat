@@ -7,16 +7,17 @@ CONTENTS                                                      *bufstat-contents*
 
     1. Intro ........................... |bufstat-intro|
     2. Usage ........................... |bufstat-usage|
-    3. Options  ........................ |bufstat-options|
-        3.1 bufstat_debug .............. |bufstat_debug|
-        3.2 bufstat_active_hl_group .... |bufstat_active_hl_group|
-        3.3 bufstat_inactive_hl_group .. |bufstat_inactive_hl_group|
-        3.4 bufstat_update_old_windows . |bufstat_update_old_windows|
-    4. License ......................... |bufstat-license|
-    5. Bugs ............................ |bufstat-bugs|
-    6. Contributing .................... |bufstat-contributing|
-    7. Changelog ....................... |bufstat-changelog|
-    8. Credits ......................... |bufstat-credits|
+    3. Display ......................... |bufstat-display|
+    4. Options  ........................ |bufstat-options|
+        4.1 bufstat_debug .............. |bufstat_debug|
+        4.2 bufstat_active_hl_group .... |bufstat_active_hl_group|
+        4.3 bufstat_inactive_hl_group .. |bufstat_inactive_hl_group|
+        4.4 bufstat_update_old_windows . |bufstat_update_old_windows|
+    5. License ......................... |bufstat-license|
+    6. Bugs ............................ |bufstat-bugs|
+    7. Contributing .................... |bufstat-contributing|
+    8. Changelog ....................... |bufstat-changelog|
+    9. Credits ......................... |bufstat-credits|
 
 ==============================================================================
 1. Intro                                                         *bufstat-intro*
@@ -55,7 +56,24 @@ Note that these mappings will not overwrite existing mappings so you don't
 have to worry about collisions.
 
 ==============================================================================
-3. Options                                                     *bufstat-options*
+3. Display                                        *bufstat-display* *bufstat-flags*
+                                                           *bufstat-+* *bufstat-#*
+
+Bufstat will display a list of buffers in the left hand side of the
+statusline.  If you open vim with no filename arguments or create a new buffer
+with no name, buflist will display that buffer's name as "-No Name-".  An
+example buffer display is below: >
+
+	1. .vimrc[+]  2. foo.py  3. bufstat.vim[#]  4. -No Name-
+
+This shows a list of four opened buffers.  In this case buffer one has been
+modified and holds the 'modified' flag.  Buffer three is the alternate buffer
+and can be jumped to with CTRL-^.  If the alternate buffer has also been
+modified, it will be be displayed as "[#+]".  The current buffer would be
+highlighted with a different syntax group.
+
+==============================================================================
+4. Options                                                     *bufstat-options*
 
 You can tweak the behavior of Bufstat by setting a few variables in your
 |vimrc|. For example: >
@@ -65,7 +83,7 @@ You can tweak the behavior of Bufstat by setting a few variables in your
 	let g:bufstat_inactive_hl_group = 'WarningMsg'
 
 ------------------------------------------------------------------------------
-3.1 g:bufstat_debug                                              *bufstat_debug*
+4.1 g:bufstat_debug                                              *bufstat_debug*
 
 Display debug output from Bufstat.  This includes warnings when you've
 selected a highlight group that doesn't exist for either
@@ -74,7 +92,7 @@ selected a highlight group that doesn't exist for either
 Default: 0
 
 ------------------------------------------------------------------------------
-3.2 g:bufstat_active_hl_group                          *bufstat_active_hl_group*
+4.2 g:bufstat_active_hl_group                          *bufstat_active_hl_group*
 
 The |highlight-group| that will be used to display the active buffer.  You can
 also define your own highlight-group in your |vimrc|, e.g.: >
@@ -85,9 +103,9 @@ also define your own highlight-group in your |vimrc|, e.g.: >
 Default: StatusLineNC 
 
 ------------------------------------------------------------------------------
-3.3 g:bufstat_inactive_hl_group                      *bufstat_inactive_hl_group*
+4.3 g:bufstat_inactive_hl_group                      *bufstat_inactive_hl_group*
 
-The |highlight-group| that will be used to display the in active buffer.  You
+The |highlight-group| that will be used to display the inactive buffer.  You
 can also define your own highlight-group in your |vimrc|, e.g.: >
 
 	highlight InactiveBuffer ctermfg=blue ctermbg=white
@@ -96,7 +114,7 @@ can also define your own highlight-group in your |vimrc|, e.g.: >
 Default: StatusLineNC 
 
 ------------------------------------------------------------------------------
-3.4 g:bufstat_update_old_windows                    *bufstat_update_old_windows*
+4.4 g:bufstat_update_old_windows                    *bufstat_update_old_windows*
 
 Setting this option will enable |autocmd|s that update the statusline of all
 windows while the cursor is inactive.  This enables bufstat to update the
@@ -105,7 +123,7 @@ buffer list in old windows when creating a window with a new buffer.
 Default: 1
 
 ==============================================================================
-4. License                                                     *bufstat-license*
+5. License                                                     *bufstat-license*
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -121,13 +139,13 @@ this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
 Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 ==============================================================================
-5. Bugs                                                           *bufstat-bugs*
+6. Bugs                                                           *bufstat-bugs*
 
 If you find a bug please post it on the issue tracker:
 http://github.com/rson/vim-bufstat/issues
 
 ==============================================================================
-6. Contributing                                           *bufstat-contributing*
+7. Contributing                                           *bufstat-contributing*
 
 Have an idea how to make Bufstat better?  Great!  Fork the project on GitHub or
 send patches to <randy.morris@archlinux.us>.
@@ -135,13 +153,13 @@ send patches to <randy.morris@archlinux.us>.
 GitHub: http://github.com/rson/vim-bufstat/
 
 ==============================================================================
-7. Changelog                                                 *bufstat-changelog*
+8. Changelog                                                 *bufstat-changelog*
 
 v0.1
     * Initial release.
 
 ==============================================================================
-8. Credits                                                     *bufstat-credits*
+9. Credits                                                     *bufstat-credits*
 
 The concept as well as a small portion of this code was derived from
 buftabs.vim[1] and/or my modifications to that script.  Credit Ico Doornekamp
