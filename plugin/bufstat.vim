@@ -253,11 +253,11 @@ augroup END
 nnoremap <silent> <plug>bufstat_scroll_right :call BufstatScroll('right')<cr>
 nnoremap <silent> <plug>bufstat_scroll_left :call BufstatScroll('left')<cr>
 
-if !hasmapto('<plug>scroll_list_right', 'n')
+if !hasmapto('<plug>bufstat_scroll_right', 'n')
   silent! nmap <unique> <right> <plug>bufstat_scroll_right
 endif
 
-if !hasmapto('<plug>scroll_list_left', 'n')
+if !hasmapto('<plug>bufstat_scroll_left', 'n')
   silent! nmap <unique> <left> <plug>bufstat_scroll_left
 endif
 
