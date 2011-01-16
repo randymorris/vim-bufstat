@@ -114,7 +114,7 @@ function BufstatGenerateList() "{{{2
       endif
 
       " % is an escape character in the status line. Nuke it.
-      let name = substitute(name, '%', '%%', '')
+      let name = substitute(name, '%', '%%', 'g')
 
       let buftitle = bufnum . ' ' . name
       let bufflags = ''
