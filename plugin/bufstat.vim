@@ -96,16 +96,23 @@ endif
 
 " Script Functions {{{1
 
-function BufstatGenerateList() "{{{2
+function BufstatGenerateList(...) "{{{2
   "
   " Generate a buffer list and store it in s:buffer_list.
   "
   let s:buffer_list = []
   let s:current_buffer = -1
 
+  " special case for BufDelete event, don't include the deleted buffer in the
+  " list even though it's not gone yet
+  let deleted = -1
+  if a:0 > 0
+    let deleted = a:1
+  endif
+
   let bufnum = 1
   while bufnum <= bufnr('$')
-    if buflisted(bufnum) && getbufvar(bufnum, '&modifiable')
+    if buflisted(bufnum) && getbufvar(bufnum, '&modifiable') && bufnum != deleted
       let name = bufname(bufnum)
       if name == ''
         let name = '-No Name-'
@@ -238,9 +245,10 @@ endfunction
 " Autocommands {{{1
 
 augroup Bufstat
-  autocmd BufNew,BufEnter,BufWipeout,VimResized * :call BufstatGenerateList()
+  autocmd BufNew,BufEnter,VimResized * :call BufstatGenerateList()
+  autocmd BufDelete * :call BufstatGenerateList(expand('<abuf>'))
   autocmd VimEnter * :call BufstatRefreshStatuslines()
-  
+
   if s:update_old_windows == 1
     autocmd CursorHold,CursorHoldI * :call BufstatRefreshStatuslines()
   endif
