@@ -66,7 +66,7 @@ if exists('g:bufstat_update_old_windows')
 endif
 "}}}
 
-let s:active_hl_group = 'StatuslineNC' "{{{
+let s:active_hl_group = 'StatuslineNC' "{{{2
 if exists('g:bufstat_active_hl_group')
   if hlexists(g:bufstat_active_hl_group)
     let s:active_hl_group = g:bufstat_active_hl_group
