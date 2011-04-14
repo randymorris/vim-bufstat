@@ -122,6 +122,40 @@ buffer list in old windows when creating a window with a new buffer.
 
 Default: 1
 
+------------------------------------------------------------------------------
+4.5 g:bufstat_modified_list_char                    *bufstat_modified_list_char*
+
+Setting this option will designate a character to append to the end of the 
+buffer name to notify that it has been modified.
+
+Default: +
+
+------------------------------------------------------------------------------
+4.6 g:bufstat_alternate_list_char                  *bufstat_alternate_list_char*
+
+Setting this option will designate a character to append to the end of the 
+buffer name to notify that it is the 'alternate' to use CTRL-^ to switch to.
+
+Default: #
+
+------------------------------------------------------------------------------
+4.7 g:bufstat_number_before_bufname              *bufstat_number_before_bufname*
+
+Enabling this option will place a buffer number before each name. Faster for
+switching to another buffer using ':b1' or ':b5', etc, but takes up space in 
+the status bar if many buffers are open.
+
+Default: 1
+
+------------------------------------------------------------------------------
+4.8 g:bufstat_bracket_around_bufname            *bufstat_bracket_around_bufname*
+
+Enabling this option will place brackets [] around the buffer name and flags.
+
+Default: 0
+
+
+
 ==============================================================================
 5. License                                                     *bufstat-license*
 

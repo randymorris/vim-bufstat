@@ -92,6 +92,36 @@ if exists('g:bufstat_inactive_hl_group')
 endif
 "}}}
 
+let s:modified_list_char = '+' "{{{2
+if exists('g:bufstat_modified_list_char')
+  let s:modified_list_char  = g:bufstat_modified_list_char
+endif
+"}}}
+
+let s:alternate_list_char = '#' "{{{2
+if exists('g:bufstat_alternate_list_char')
+  let s:alternate_list_char  = g:bufstat_alternate_list_char
+endif
+"}}}
+
+let s:bracket_around_bufname = 0 "{{{2
+if exists('g:bufstat_bracket_around_bufname')
+  let s:bracket_around_bufname  = g:bufstat_bracket_around_bufname
+endif
+
+if s:bracket_around_bufname == 0
+  let s:buflist_join_spaces = '  '
+else
+  let s:buflist_join_spaces = ' '
+endif
+"}}}
+
+let s:number_before_bufname = 1 "{{{2
+if exists('g:bufstat_number_before_bufname')
+  let s:number_before_bufname  = g:bufstat_number_before_bufname
+endif
+"}}}
+
 "}}}
 
 " Script Functions {{{1
@@ -123,20 +153,26 @@ function BufstatGenerateList(...) "{{{2
       " % is an escape character in the status line. Nuke it.
       let name = substitute(name, '%', '%%', 'g')
 
-      let buftitle = bufnum . ' ' . name
+      if s:number_before_bufname  
+        let buftitle = bufnum . ' ' . name
+      else
+        let buftitle = name
+      endif
       let bufflags = ''
 
       " add a hash for the alternate buffer
       if bufnum == bufnr('#')
-        let bufflags .= '#'
+        let bufflags .= s:alternate_list_char 
       endif
 
       " add a bang for modified buffers
       if getbufvar(bufnum, '&modified')
-        let bufflags .= '+'
+        let bufflags .= s:modified_list_char
       endif
 
-      if len(bufflags) > 0
+      if s:bracket_around_bufname
+        let buftitle = '[' . buftitle . bufflags . ']'
+      elseif len(bufflags) > 0
         let buftitle .= '[' . bufflags . ']'
       endif
 
@@ -176,7 +212,7 @@ function BufstatBuildStatusline() "{{{2
   if s:chop_buffers > 0
     call remove(buffer_list_copy, len(buffer_list_copy) - s:chop_buffers, len(buffer_list_copy) - 1)
   endif
-  let buffer_string = join(buffer_list_copy, '  ')
+  let buffer_string = join(buffer_list_copy, s:buflist_join_spaces)
 
   let status_string = '%<%#' . s:inactive_hl_group . '#'
   let status_string .= buffer_string
