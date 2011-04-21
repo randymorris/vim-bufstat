@@ -94,19 +94,19 @@ endif
 
 let s:modified_list_char = '+' "{{{2
 if exists('g:bufstat_modified_list_char')
-  let s:modified_list_char  = g:bufstat_modified_list_char
+  let s:modified_list_char = g:bufstat_modified_list_char
 endif
 "}}}
 
 let s:alternate_list_char = '#' "{{{2
 if exists('g:bufstat_alternate_list_char')
-  let s:alternate_list_char  = g:bufstat_alternate_list_char
+  let s:alternate_list_char = g:bufstat_alternate_list_char
 endif
 "}}}
 
 let s:bracket_around_bufname = 0 "{{{2
 if exists('g:bufstat_bracket_around_bufname')
-  let s:bracket_around_bufname  = g:bufstat_bracket_around_bufname
+  let s:bracket_around_bufname = g:bufstat_bracket_around_bufname
 endif
 
 if s:bracket_around_bufname == 0
@@ -118,7 +118,7 @@ endif
 
 let s:number_before_bufname = 1 "{{{2
 if exists('g:bufstat_number_before_bufname')
-  let s:number_before_bufname  = g:bufstat_number_before_bufname
+  let s:number_before_bufname = g:bufstat_number_before_bufname
 endif
 "}}}
 
@@ -158,7 +158,7 @@ function BufstatGenerateList(...) "{{{2
       else
         let buftitle = name
       endif
-      let bufflags = ''
+
 
       " add a hash for the alternate buffer
       if bufnum == bufnr('#')
@@ -224,7 +224,7 @@ function BufstatBuildStatusline() "{{{2
   endif
 
   " old statusline, right aligned
-  let status_string .=  '%#StatusLine#%=  ' . s:old_statusline
+  let status_string .=  '%#StatusLine#%= ' . s:old_statusline
   return status_string
 endfunction
 "}}}
