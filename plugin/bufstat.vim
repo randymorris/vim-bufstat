@@ -50,6 +50,9 @@ let g:loaded_bufstat = 1
 " used when scrolling the buffer list
 let s:chop_buffers = 0
 
+" used to track most recently used buffers
+let s:accessed_list = []
+
 "}}}
 
 " Options {{{1
@@ -122,71 +125,92 @@ if exists('g:bufstat_number_before_bufname')
 endif
 "}}}
 
+let s:sort_function = "BufstatSortNumeric" "{{{2
+if exists('g:bufstat_sort_function')
+  let s:sort_function = g:bufstat_sort_function
+endif
+"}}}
+
 "}}}
 
 " Script Functions {{{1
 
 function BufstatGenerateList(...) "{{{2
   "
-  " Generate a buffer list and store it in s:buffer_list.
+  " Generate a buffer list and store it in g:bufstat_buffer_list.
   "
-  let s:buffer_list = []
-  let s:current_buffer = -1
+  let g:bufstat_buffer_list = []
 
   " special case for BufDelete event, don't include the deleted buffer in the
   " list even though it's not gone yet
   let deleted = -1
   if a:0 > 0
     let deleted = a:1
+    " also remove from mru buffers
+    call filter(s:accessed_list, "v:val != " . a:1)
+  else
+    " update accessed_list to track mru buffers
+    let bufnum = bufnr('%')
+    call filter(s:accessed_list, "v:val != " . bufnum)
+    call insert(s:accessed_list, bufnum, 0)
   endif
 
   let bufnum = 1
   while bufnum <= bufnr('$')
+    let bufdict = {}
     if buflisted(bufnum) && getbufvar(bufnum, '&modifiable') && bufnum != deleted
-      let name = bufname(bufnum)
-      if name == ''
-        let name = '-No Name-'
+      let bufdict.number = bufnum
+      let bufdict.name = bufname(bufdict.number)
+      if bufdict.name == ''
+        let bufdict.name = '-No Name-'
       else
-        let name = fnamemodify(name, ':t')
+        let bufdict.name = fnamemodify(bufdict.name, ':t')
       endif
 
       " % is an escape character in the status line. Nuke it.
-      let name = substitute(name, '%', '%%', 'g')
+      let bufdict.name = substitute(bufdict.name, '%', '%%', 'g')
 
       if s:number_before_bufname  
-        let buftitle = bufnum . ' ' . name
+        let bufdict.display = bufdict.number . ' ' . bufdict.name
       else
-        let buftitle = name
+        let bufdict.display = bufdict.name
       endif
 
+      let bufdict.flags = ''
 
       " add a hash for the alternate buffer
-      if bufnum == bufnr('#')
-        let bufflags .= s:alternate_list_char 
+      if bufdict.number == bufnr('#')
+        let bufdict.flags .= s:alternate_list_char 
+        let bufdict.alternate = 1
+      else
+        let bufdict.alternate = 0
       endif
 
       " add a bang for modified buffers
-      if getbufvar(bufnum, '&modified')
-        let bufflags .= s:modified_list_char
+      if getbufvar(bufdict.number, '&modified')
+        let bufdict.flags .= s:modified_list_char
       endif
 
       if s:bracket_around_bufname
-        let buftitle = '[' . buftitle . bufflags . ']'
-      elseif len(bufflags) > 0
-        let buftitle .= '[' . bufflags . ']'
+        let bufdict.display = '[' . bufdict.display . bufdict.flags . ']'
+      elseif len(bufdict.flags) > 0
+        let bufdict.display .= '[' . bufdict.flags . ']'
       endif
 
-      if bufnum == winbufnr(winnr())
-        let s:current_buffer = len(s:buffer_list)
-        let s:buffer_list = add(s:buffer_list, '%#' . s:active_hl_group . '#' . buftitle . '%#' . s:inactive_hl_group . '#')
+      if bufdict.number == winbufnr(winnr())
+        let bufdict.display = '%#' . s:active_hl_group . '#' . bufdict.display . '%#' . s:inactive_hl_group . '#'
+        let bufdict.active = 1
       else
-        let s:buffer_list = add(s:buffer_list, buftitle)
+        let bufdict.active = 0
       endif
+
+      call add(g:bufstat_buffer_list, bufdict)
     endif
 
     let bufnum += 1
   endwhile
 
+  call sort(g:bufstat_buffer_list, s:sort_function)
   call BufstatDrawList()
 endfunction
 "}}}
@@ -203,15 +227,16 @@ endfunction
 
 function BufstatBuildStatusline() "{{{2
   "
-  " Build a string from the s:buffer_list
+  " Build a string from the g:bufstat_buffer_list
   "
   " Respects s:chop_buffers.  Includes formatting for highlight groups which
   " will be formatted as the &statusline option.
   "
-  let buffer_list_copy = copy(s:buffer_list)
+  let buffer_list_copy = copy(g:bufstat_buffer_list)
   if s:chop_buffers > 0
     call remove(buffer_list_copy, len(buffer_list_copy) - s:chop_buffers, len(buffer_list_copy) - 1)
   endif
+  call map(buffer_list_copy, "v:val.display" )
   let buffer_string = join(buffer_list_copy, s:buflist_join_spaces)
 
   let status_string = '%<%#' . s:inactive_hl_group . '#'
@@ -263,7 +288,7 @@ function BufstatScroll(dir) "{{{2
   " <dir> can be 'left' or 'right'
   "
   if a:dir == 'left'
-    if s:chop_buffers < len(s:buffer_list) - 1
+    if s:chop_buffers < len(g:bufstat_buffer_list) - 1
       let s:chop_buffers += 1
     endif
   elseif a:dir == 'right'
@@ -273,6 +298,42 @@ function BufstatScroll(dir) "{{{2
   endif
 
   call BufstatDrawList()
+endfunction
+"}}}
+
+function BufstatSortAlphabetic(first, second) "{{{2
+  "
+  " Function to sorting by buffer name
+  "
+  return a:first.name > a:second.name
+endfunction
+"}}}
+
+function BufstatSortNumeric(first, second) "{{{2
+  "
+  " Function for sorting by buffer number
+  "
+  return a:first.number - a:second.number
+endfunction
+"}}}
+
+function BufstatSortMRU(one, two) "{{{2
+  "
+  " Function to keep most recently used buffers at the beginning of the list.
+  "
+  let one = index(s:accessed_list, a:one.number)
+  let two = index(s:accessed_list, a:two.number)
+  return one - two
+endfunction
+"}}}
+
+function BufstatSortReverseMRU(one, two) "{{{2
+  "
+  " Function to keep most recently used buffers at the end of the list.
+  "
+  let one  = index(s:accessed_list, a:one.number)
+  let two = index(s:accessed_list, a:two.number)
+  return two - one
 endfunction
 "}}}
 
