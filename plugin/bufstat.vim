@@ -159,6 +159,7 @@ function BufstatGenerateList(...) "{{{2
         let buftitle = name
       endif
 
+      let bufflags = ''
 
       " add a hash for the alternate buffer
       if bufnum == bufnr('#')
