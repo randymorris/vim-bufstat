@@ -5,19 +5,23 @@ Persistent buffer list in the statusline
 ==============================================================================
 CONTENTS                                                      *bufstat-contents*
 
-    1. Intro ........................... |bufstat-intro|
-    2. Usage ........................... |bufstat-usage|
-    3. Display ......................... |bufstat-display|
-    4. Options  ........................ |bufstat-options|
-        4.1 bufstat_debug .............. |bufstat_debug|
-        4.2 bufstat_active_hl_group .... |bufstat_active_hl_group|
-        4.3 bufstat_inactive_hl_group .. |bufstat_inactive_hl_group|
-        4.4 bufstat_update_old_windows . |bufstat_update_old_windows|
-    5. License ......................... |bufstat-license|
-    6. Bugs ............................ |bufstat-bugs|
-    7. Contributing .................... |bufstat-contributing|
-    8. Changelog ....................... |bufstat-changelog|
-    9. Credits ......................... |bufstat-credits|
+    1. Intro ................................. |bufstat-intro|
+    2. Usage ................................. |bufstat-usage|
+    3. Display ............................... |bufstat-display|
+    4. Options  .............................. |bufstat-options|
+        4.1 bufstat_debug .................... |bufstat_debug|
+        4.2 bufstat_active_hl_group .......... |bufstat_active_hl_group|
+        4.3 bufstat_inactive_hl_group ........ |bufstat_inactive_hl_group|
+        4.4 bufstat_update_old_windows ....... |bufstat_update_old_windows|
+        4.5 g:bufstat_modified_list_char ..... |bufstat_modified_list_char|
+        4.6 g:bufstat_alternate_list_char .... |bufstat_alternate_list_char|
+        4.7 g:bufstat_number_before_bufname .. |bufstat_number_before_bufname|
+        4.8 g:bufstat_bracket_around_bufname . |bufstat_bracket_around_bufname|
+    5. License ............................... |bufstat-license|
+    6. Bugs .................................. |bufstat-bugs|
+    7. Contributing .......................... |bufstat-contributing|
+    8. Changelog ............................. |bufstat-changelog|
+    9. Credits ............................... |bufstat-credits|
 
 ==============================================================================
 1. Intro                                                         *bufstat-intro*
@@ -191,6 +195,12 @@ GitHub: http://github.com/rson/vim-bufstat/
 
 v0.1
     * Initial release.
+v0.2
+    * Added more configuration options.
+        - |bufstat_modified_list_char|
+        - |bufstat_alternate_list_char|
+        - |bufstat_number_before_bufname|
+        - |bufstat_bracket_around_bufname|
 
 ==============================================================================
 9. Credits                                                     *bufstat-credits*
