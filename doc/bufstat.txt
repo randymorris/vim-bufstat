@@ -16,11 +16,10 @@ CONTENTS                                                      *bufstat-contents*
         4.5 g:bufstat_modified_list_char ..... |bufstat_modified_list_char|
         4.6 g:bufstat_alternate_list_char .... |bufstat_alternate_list_char|
         4.7 g:bufstat_number_before_bufname .. |bufstat_number_before_bufname|
-        4.8 g:bufstat_bracket_around_bufname . |bufstat_bracket_around_bufname|
-        4.9 g:bufstat_sort_function .......... |bufstat_sort_function|
-        4.10 g:bufstat_surround_buffers ...... |bufstat_surround_buffers|
-        4.11 g:bufstat_surround_flags ........ |bufstat_surround_flags|
-        4.12 g:bufstat_join_string ........... |bufstat_join_string|
+        4.8 g:bufstat_sort_function .......... |bufstat_sort_function|
+        4.9 g:bufstat_surround_buffers ....... |bufstat_surround_buffers|
+        4.10 g:bufstat_surround_flags ........ |bufstat_surround_flags|
+        4.11 g:bufstat_join_string ........... |bufstat_join_string|
     5. License ............................... |bufstat-license|
     6. Bugs .................................. |bufstat-bugs|
     7. Contributing .......................... |bufstat-contributing|
@@ -156,14 +155,7 @@ the status bar if many buffers are open.
 Default: 1
 
 ------------------------------------------------------------------------------
-4.8 g:bufstat_bracket_around_bufname            *bufstat_bracket_around_bufname*
-
-Enabling this option will place brackets [] around the buffer name and flags.
-
-Default: 0
-
-------------------------------------------------------------------------------
-4.9 g:bufstat_sort_function                              *bufstat_sort_function*
+4.8 g:bufstat_sort_function                              *bufstat_sort_function*
 
 This function will be called to sort the buffer list.  There are four provided
 sorting functions:
@@ -185,7 +177,7 @@ For more information see |sort|.
 Default: "BufstatSortNumeric"
 
 ------------------------------------------------------------------------------
-4.10 g:bufstat_surround_buffers                       *bufstat_surround_buffers*
+4.9 g:bufstat_surround_buffers                        *bufstat_surround_buffers*
 
 This option defines the strings used to surround buffers in the buffer list.
 The value must be a pair of strings separated by a ':'.  You may use a ':' in
@@ -198,7 +190,7 @@ either string as long as it's escaped with a '\', e.g. >
 Default: ':' (no surrounding characters)
 
 ------------------------------------------------------------------------------
-4.11 g:bufstat_surround_flags                           *bufstat_surround_flags*
+4.10 g:bufstat_surround_flags                           *bufstat_surround_flags*
 
 This option defines the strings used to surround any flags for a buffer in the
 buffer list.  The value must be a pair of strings separated by a ':'.  You may
@@ -211,7 +203,7 @@ use a ':' in either string as long as it's escaped with a '\', e.g. >
 Default: '[:]'
 
 ------------------------------------------------------------------------------
-4.12 g:bufstat_join_string                                 *bufstat_join_string*
+4.11 g:bufstat_join_string                                 *bufstat_join_string*
 
 This option defines the string used to separate buffers in the buffer list.
 
@@ -268,6 +260,8 @@ v0.4
         - |bufstat_surround_buffers|
         - |bufstat_surround_flags|
         - |bufstat_join_string|
+    * Removed configuration option.
+        - |bufstat_bracket_around_bufname|
 
 ==============================================================================
 9. Credits                                                     *bufstat-credits*
