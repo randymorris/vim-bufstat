@@ -18,6 +18,9 @@ CONTENTS                                                      *bufstat-contents*
         4.7 g:bufstat_number_before_bufname .. |bufstat_number_before_bufname|
         4.8 g:bufstat_bracket_around_bufname . |bufstat_bracket_around_bufname|
         4.9 g:bufstat_sort_function .......... |bufstat_sort_function|
+        4.10 g:bufstat_surround_buffers ...... |bufstat_surround_buffers|
+        4.11 g:bufstat_surround_flags ........ |bufstat_surround_flags|
+        4.12 g:bufstat_join_string ........... |bufstat_join_string|
     5. License ............................... |bufstat-license|
     6. Bugs .................................. |bufstat-bugs|
     7. Contributing .......................... |bufstat-contributing|
@@ -105,7 +108,7 @@ also define your own highlight-group in your |vimrc|, e.g.: >
 	highlight ActiveBuffer ctermfg=white ctermbg=blue
 	let g:bufstat_active_hl_group = "ActiveBuffer"
 
-Default: StatusLineNC 
+Default: StatusLineNC
 
 ------------------------------------------------------------------------------
 4.3 g:bufstat_inactive_hl_group                      *bufstat_inactive_hl_group*
@@ -116,7 +119,7 @@ can also define your own highlight-group in your |vimrc|, e.g.: >
 	highlight InactiveBuffer ctermfg=blue ctermbg=white
 	let g:bufstat_inactive_hl_group = "InactiveBuffer"
 
-Default: StatusLineNC 
+Default: StatusLineNC
 
 ------------------------------------------------------------------------------
 4.4 g:bufstat_update_old_windows                    *bufstat_update_old_windows*
@@ -181,6 +184,39 @@ For more information see |sort|.
 
 Default: "BufstatSortNumeric"
 
+------------------------------------------------------------------------------
+4.10 g:bufstat_surround_buffers                       *bufstat_surround_buffers*
+
+This option defines the strings used to surround buffers in the buffer list.
+The value must be a pair of strings separated by a ':'.  You may use a ':' in
+either string as long as it's escaped with a '\', e.g. >
+
+	let g:bufstat_surround_buffers = '\::\:'
+			OR
+	let g:bufstat_surround_buffers = "\\\::\\\:"
+
+Default: ':' (no surrounding characters)
+
+------------------------------------------------------------------------------
+4.11 g:bufstat_surround_flags                           *bufstat_surround_flags*
+
+This option defines the strings used to surround any flags for a buffer in the
+buffer list.  The value must be a pair of strings separated by a ':'.  You may
+use a ':' in either string as long as it's escaped with a '\', e.g. >
+
+	let g:bufstat_surround_flags = '\::'
+			OR
+	let g:bufstat_surround_flags = "\\\::"
+
+Default: '[:]'
+
+------------------------------------------------------------------------------
+4.12 g:bufstat_join_string                                 *bufstat_join_string*
+
+This option defines the string used to separate buffers in the buffer list.
+
+Default: '  '
+
 
 
 ==============================================================================
@@ -227,6 +263,11 @@ v0.2
 v0.3
     * Added buffer list sorting hook.
         - |bufstat_sort_function|
+v0.4
+    * Added more configuration options.
+        - |bufstat_surround_buffers|
+        - |bufstat_surround_flags|
+        - |bufstat_join_string|
 
 ==============================================================================
 9. Credits                                                     *bufstat-credits*

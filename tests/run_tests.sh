@@ -17,6 +17,7 @@ echo "========"
 failures=()
 for i in ${tests[@]}; do
     vim -X -N -u "$i" &> /dev/null
+    # vim -X -N -u "$i" 
     if [ $? -eq 0 ]; then
         echo -n "."
     else

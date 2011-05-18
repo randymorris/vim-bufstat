@@ -8,6 +8,9 @@ autocmd VimEnter * call Test()
 function Test()
     if &statusline != g:statusline
         cquit
+        " echoerr &statusline
+        " echoerr g:statusline
+    else
+        qall!
     endif
-    qall!
 endfunction

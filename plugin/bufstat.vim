@@ -107,15 +107,21 @@ if exists('g:bufstat_alternate_list_char')
 endif
 "}}}
 
-let s:bracket_around_bufname = 0 "{{{2
-if exists('g:bufstat_bracket_around_bufname')
-  let s:bracket_around_bufname = g:bufstat_bracket_around_bufname
+let s:surround_buffers = ":" "{{{2
+if exists('g:bufstat_surround_buffers')
+  let s:surround_buffers = g:bufstat_surround_buffers
 endif
+"}}}
 
-if s:bracket_around_bufname == 0
-  let s:buflist_join_spaces = '  '
-else
-  let s:buflist_join_spaces = ' '
+let s:surround_flags = "[:]" "{{{2
+if exists('g:bufstat_surround_flags')
+  let s:surround_flags = g:bufstat_surround_flags
+endif
+"}}}
+
+let s:join_string = "  " "{{{2
+if exists('g:bufstat_join_string')
+  let s:join_string = g:bufstat_join_string
 endif
 "}}}
 
@@ -178,7 +184,7 @@ function BufstatGenerateList(...) "{{{2
 
       let bufdict.flags = ''
 
-      " add a hash for the alternate buffer
+      " add a flag for the alternate buffer
       if bufdict.number == bufnr('#')
         let bufdict.flags .= s:alternate_list_char 
         let bufdict.alternate = 1
@@ -186,16 +192,22 @@ function BufstatGenerateList(...) "{{{2
         let bufdict.alternate = 0
       endif
 
-      " add a bang for modified buffers
+      " add a flag for modified buffers
       if getbufvar(bufdict.number, '&modified')
         let bufdict.flags .= s:modified_list_char
       endif
 
-      if s:bracket_around_bufname
-        let bufdict.display = '[' . bufdict.display . bufdict.flags . ']'
-      elseif len(bufdict.flags) > 0
-        let bufdict.display .= '[' . bufdict.flags . ']'
+      " wrap flags in s:surround_flags
+      if bufdict.flags != ""
+        let wrap = split(s:surround_flags, '\v(\\)@<!:', 1)
+        let wrap = map(wrap, "substitute(v:val, '\\\\:', ':', 'g')")
+        let bufdict.flags = wrap[0] . bufdict.flags . wrap[1]
       endif
+
+      " wrap buffer in s:surround_buffers
+      let wrap = split(s:surround_buffers, '\v(\\)@<!:', 1)
+      let wrap = map(wrap, "substitute(v:val, '\\\\:', ':', 'g')")
+      let bufdict.display = wrap[0] . bufdict.display . bufdict.flags . wrap[1]
 
       if bufdict.number == winbufnr(winnr())
         let bufdict.display = '%#' . s:active_hl_group . '#' . bufdict.display . '%#' . s:inactive_hl_group . '#'
@@ -237,7 +249,7 @@ function BufstatBuildStatusline() "{{{2
     call remove(buffer_list_copy, len(buffer_list_copy) - s:chop_buffers, len(buffer_list_copy) - 1)
   endif
   call map(buffer_list_copy, "v:val.display" )
-  let buffer_string = join(buffer_list_copy, s:buflist_join_spaces)
+  let buffer_string = join(buffer_list_copy, s:join_string)
 
   let status_string = '%<%#' . s:inactive_hl_group . '#'
   let status_string .= buffer_string
