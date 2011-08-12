@@ -273,6 +273,10 @@ function BufstatRefreshStatuslines() "{{{2
   " This is useful when a new window is opened via sp or vsp.  The new window
   " will correctly list the new buffer but the old window will not.
   "
+  if bufname(winbufnr(winnr())) == "[Command Line]"
+    return
+  endif
+
   let current_window = winnr()
 
   let i = 1
