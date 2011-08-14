@@ -262,6 +262,9 @@ v0.4
         - |bufstat_join_string|
     * Removed configuration option.
         - |bufstat_bracket_around_bufname|
+v0.5
+    * Fixed errors when the *command-line-window* is active.
+    * Added ability to change right side of statusline on the fly. (mjheagle8)
 
 ==============================================================================
 9. Credits                                                     *bufstat-credits*
