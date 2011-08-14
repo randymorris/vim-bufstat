@@ -43,8 +43,7 @@ if exists('g:loaded_bufstat')
   finish
 endif
 
-" save user's statusline setting to be used as the right side of the statusbar
-let s:old_statusline = &statusline
+" set status as loaded
 let g:loaded_bufstat = 1
 
 " used when scrolling the buffer list
@@ -244,6 +243,16 @@ function BufstatBuildStatusline() "{{{2
   " Respects s:chop_buffers.  Includes formatting for highlight groups which
   " will be formatted as the &statusline option.
   "
+  if strlen(&l:statusline) == 0
+    let &l:statusline = &g:statusline
+  endif
+
+  let cur_statusline = &l:statusline
+  let ralign = strridx(&l:statusline, "%=")
+  if ralign >= 0
+    let cur_statusline = strpart(&l:statusline, ralign+2)
+  endif
+
   let buffer_list_copy = copy(g:bufstat_buffer_list)
   if s:chop_buffers > 0
     call remove(buffer_list_copy, len(buffer_list_copy) - s:chop_buffers, len(buffer_list_copy) - 1)
@@ -261,7 +270,7 @@ function BufstatBuildStatusline() "{{{2
   endif
 
   " old statusline, right aligned
-  let status_string .=  '%#StatusLine#%= ' . s:old_statusline
+  let status_string .=  '%#StatusLine#%= ' . cur_statusline
   return status_string
 endfunction
 "}}}
