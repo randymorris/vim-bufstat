@@ -20,6 +20,7 @@ CONTENTS                                                      *bufstat-contents*
         4.9 g:bufstat_surround_buffers ....... |bufstat_surround_buffers|
         4.10 g:bufstat_surround_flags ........ |bufstat_surround_flags|
         4.11 g:bufstat_join_string ........... |bufstat_join_string|
+        4.12 g:bufstat_prevent_mappings ...... |bufstat_prevent_mappings|
     5. License ............................... |bufstat-license|
     6. Bugs .................................. |bufstat-bugs|
     7. Contributing .......................... |bufstat-contributing|
@@ -209,6 +210,13 @@ This option defines the string used to separate buffers in the buffer list.
 
 Default: '  '
 
+------------------------------------------------------------------------------
+4.12 g:bufstat_prevent_mappings                       *bufstat_prevent_mappings*
+
+If this option is set no mappings will be created.  It can be set to anything.
+
+Default: '  '
+
 
 
 ==============================================================================
@@ -265,6 +273,9 @@ v0.4
 v0.5
     * Fixed errors when the *command-line-window* is active.
     * Added ability to change right side of statusline on the fly. (mjheagle8)
+v0.6
+    * Added option to prevent mappings from being created.
+        - |bufstat_prevent_mappings|
 
 ==============================================================================
 9. Credits                                                     *bufstat-credits*

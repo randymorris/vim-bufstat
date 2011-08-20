@@ -383,12 +383,14 @@ augroup END
 nnoremap <silent> <plug>bufstat_scroll_right :call BufstatScroll('right')<cr>
 nnoremap <silent> <plug>bufstat_scroll_left :call BufstatScroll('left')<cr>
 
-if !hasmapto('<plug>bufstat_scroll_right', 'n')
-  silent! nmap <unique> <right> <plug>bufstat_scroll_right
-endif
+if !exists('g:bufstat_prevent_mappings')
+  if !hasmapto('<plug>bufstat_scroll_right', 'n')
+    silent! nmap <unique> <right> <plug>bufstat_scroll_right
+  endif
 
-if !hasmapto('<plug>bufstat_scroll_left', 'n')
-  silent! nmap <unique> <left> <plug>bufstat_scroll_left
+  if !hasmapto('<plug>bufstat_scroll_left', 'n')
+    silent! nmap <unique> <left> <plug>bufstat_scroll_left
+  endif
 endif
 
 "}}}
