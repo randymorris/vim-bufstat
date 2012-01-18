@@ -69,7 +69,7 @@ have to worry about collisions.
 
 Bufstat will display a list of buffers in the left hand side of the
 statusline.  If you open vim with no filename arguments or create a new buffer
-with no name, buflist will display that buffer's name as "-No Name-".  An
+with no name, bufstat will display that buffer's name as "-No Name-".  An
 example buffer display is below: >
 
 	1. .vimrc[+]  2. foo.py  3. bufstat.vim[#]  4. -No Name-
